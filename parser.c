@@ -79,17 +79,65 @@ void parse_source(struct SVM *svm, const char *filename)
             ptr = strtok(NULL, " \n");
             svm->program[svm->inst_ptr++] = (struct Instruction)PUSH(atoi(ptr));
         }
+        else if (strcmp(ptr, "jmp") == 0)
+        {
+            // todo check if next operand is a valid operand.
+            ptr = strtok(NULL, " \n");
+            svm->program[svm->inst_ptr++] = (struct Instruction)JMP(atoi(ptr));
+        }
+        else if (strcmp(ptr, "jneq") == 0)
+        {
+            // todo check if next operand is a valid operand.
+            ptr = strtok(NULL, " \n");
+            svm->program[svm->inst_ptr++] = (struct Instruction)JNEQ(atoi(ptr));
+        }
         else if (strcmp(ptr, "plus") == 0)
         {
             svm->program[svm->inst_ptr++] = (struct Instruction)PLUS;
+        }
+        else if (strcmp(ptr, "minus") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)MINUS;
         }
         else if (strcmp(ptr, "print") == 0)
         {
             svm->program[svm->inst_ptr++] = (struct Instruction)PRINT;
         }
+        else if (strcmp(ptr, "drop") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)DROP;
+        }
+        else if (strcmp(ptr, "equal") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)EQUAL;
+        }
+        else if (strcmp(ptr, "dup") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)DUP;
+        }
+        else if (strcmp(ptr, "lt") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)LT;
+        }
+        else if (strcmp(ptr, "lteq") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)LTEQ;
+        }
+        else if (strcmp(ptr, "dropall") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)DROPALL;
+        }
+        else if (strcmp(ptr, "halt") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)HALT;
+        }
+        else if (strcmp(ptr, "dump") == 0)
+        {
+            svm->program[svm->inst_ptr++] = (struct Instruction)DUMP;
+        }
         else
         {
-            fprintf(stderr, "ERROR: Unexpected instruction.\n");
+            fprintf(stderr, "ERROR: Unexpected instruction: %s\n", ptr);
         }
         ptr = strtok(NULL, " \n");
     }

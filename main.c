@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "svm.h"
 #include "parser.h"
@@ -21,7 +22,7 @@ int main(int argc, char **argv)
 
     parse_source(&svm, input_file);
 
-    for (size_t i = 0; i < sizeof(svm.inst_ptr); i++)
+    for (size_t i = 0; i < svm.inst_ptr; i++)
     {
         if (svm.program[i].type == INST_PUSH)
         {
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
         else if (svm.program[i].type == INST_JNEQ)
         {
             int top = pop(&svm);
-            if (top != 1)
+            if (top != 1) 
                 i = svm.program[i].op;
         }
         else if (svm.program[i].type == INST_HALT)
@@ -88,11 +89,11 @@ int main(int argc, char **argv)
         else if (svm.program[i].type == INST_PRINT)
         {
             int op = pop(&svm);
-            printf("%d\n", op);
+            printf("stdout:%d\n", op);
         }
         else if (svm.program[i].type == INST_DUMP)
         {
-            dump_stack(svm);
+            dump_stack(svm, i);
         }
         else if (svm.program[i].type == INST_DROPALL)
         {

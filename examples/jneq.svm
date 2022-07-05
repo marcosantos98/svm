@@ -1,0 +1,7 @@
+push 1
+push 1
+equal
+jneq 4
+push 69
+print
+halt

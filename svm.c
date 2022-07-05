@@ -18,7 +18,7 @@ void assert_empty_stack(struct SVM svm)
     if (svm.ip != 0)
     {
         printf("Error: Stack is not empty. Make sure you consume everthing on the stack. [assert_empty_stack]\n");
-        dump_stack(svm);
+        dump_stack(svm, 0);
     }
 }
 
@@ -34,9 +34,9 @@ int pop(struct SVM *svm)
     return op;
 }
 
-void dump_stack(struct SVM svm)
+void dump_stack(struct SVM svm, int ip)
 {
-    printf("Current stack:\n");
+    printf("Current stack at %d:\n", ip);
     for (size_t i = 0; i < svm.ip; i++)
     {
         printf("\tIP: %ld = %i\n", i, svm.stack[i]);

@@ -1,0 +1,13 @@
+push 0
+push 1
+push 10
+lt
+jneq 10
+push 1
+plus
+dup
+dup
+print
+jmp 2
+drop
+halt
