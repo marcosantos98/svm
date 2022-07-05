@@ -1,0 +1,6 @@
+push 10
+push 5
+mod
+push 0
+equal
+print
