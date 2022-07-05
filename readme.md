@@ -25,3 +25,8 @@ cmake .
 make
 ./svm <input.svm>
 ```
+
+Run tests:
+```console
+./test.sh
+```
