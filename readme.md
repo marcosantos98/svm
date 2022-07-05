@@ -10,7 +10,7 @@ Virtual machine that executes the given instructions.
   - [x] Jump instructions (Jump not equal and jump);
   - [x] Stack manipulation (push, dup, drop);
   - [x] Print current, dump the stack;
-- [ ] Read operations from files.
+- [x] Read operations from files.
 
 ### Build and run:
 
@@ -23,5 +23,5 @@ git clone https://github.com/mscode98/svm.git
 cd svm
 cmake .
 make
-./svm
+./svm <input.svm>
 ```
