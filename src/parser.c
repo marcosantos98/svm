@@ -77,63 +77,87 @@ void parse_source(struct SVM *svm, const char *filename)
         {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
-            svm->program[svm->inst_ptr++] = (struct Instruction)PUSH(atoi(ptr));
+            add_instruction(svm, PUSH(atoi(ptr)));
         }
         else if (strcmp(ptr, "jmp") == 0)
         {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
-            svm->program[svm->inst_ptr++] = (struct Instruction)JMP(atoi(ptr));
+            add_instruction(svm, JMP(atoi(ptr)));
         }
         else if (strcmp(ptr, "jneq") == 0)
         {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
-            svm->program[svm->inst_ptr++] = (struct Instruction)JNEQ(atoi(ptr));
+            add_instruction(svm, JNEQ(atoi(ptr)));
         }
         else if (strcmp(ptr, "plus") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)PLUS;
+            add_instruction(svm, PLUS);
         }
         else if (strcmp(ptr, "minus") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)MINUS;
+            add_instruction(svm, MINUS);
+        }
+        else if (strcmp(ptr, "mult") == 0)
+        {
+            add_instruction(svm, MULT);
+        }
+        else if (strcmp(ptr, "div") == 0)
+        {
+            add_instruction(svm, DIV);
+        }
+        else if (strcmp(ptr, "mod") == 0)
+        {
+            add_instruction(svm, MOD);
         }
         else if (strcmp(ptr, "print") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)PRINT;
+            add_instruction(svm, PRINT);
         }
         else if (strcmp(ptr, "drop") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)DROP;
+            add_instruction(svm, DROP);
         }
         else if (strcmp(ptr, "equal") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)EQUAL;
+            add_instruction(svm, EQUAL);
         }
         else if (strcmp(ptr, "dup") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)DUP;
+            add_instruction(svm, DUP);
         }
         else if (strcmp(ptr, "lt") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)LT;
+            add_instruction(svm, LT);
         }
         else if (strcmp(ptr, "lteq") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)LTEQ;
+            add_instruction(svm, LTEQ);
+        }
+        else if (strcmp(ptr, "gt") == 0)
+        {
+            add_instruction(svm, GT);
+        }
+        else if (strcmp(ptr, "gteq") == 0)
+        {
+            add_instruction(svm, GTEQ);
         }
         else if (strcmp(ptr, "dropall") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)DROPALL;
+            add_instruction(svm, DROPALL);
         }
         else if (strcmp(ptr, "halt") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)HALT;
+            add_instruction(svm, HALT);
         }
         else if (strcmp(ptr, "dump") == 0)
         {
-            svm->program[svm->inst_ptr++] = (struct Instruction)DUMP;
+            add_instruction(svm, DUMP);
+        }
+         else if (strcmp(ptr, "nequal") == 0)
+        {
+            add_instruction(svm, NEQUAL);
         }
         else
         {

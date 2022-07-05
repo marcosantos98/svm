@@ -51,12 +51,41 @@ int main(int argc, char **argv)
             int op1 = pop(&svm);
             push_inst(&svm, op2 - op1);
         }
+        else if (svm.program[i].type == INST_MULT)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. MULT operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            push_inst(&svm, op2 * op1);
+        }
+        else if (svm.program[i].type == INST_DIV)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. DIV operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            //todo make sure values are greater than zero.
+            push_inst(&svm, op1 / op2);
+        }
+        else if (svm.program[i].type == INST_MOD)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. MOD operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            push_inst(&svm, op1 % op2);
+        }
         else if (svm.program[i].type == INST_EQ)
         {
             assert_ip_count(svm.ip >= 2, "Stack underflow. EQUAL operation requires two values on the stack.");
             int op2 = pop(&svm);
             int op1 = pop(&svm);
             push_inst(&svm, op1 == op2 ? 1 : 0);
+        }
+        else if (svm.program[i].type == INST_NEQ)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. NOT EQUAL operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            push_inst(&svm, op1 != op2 ? 1 : 0);
         }
         else if (svm.program[i].type == INST_LT)
         {
@@ -71,6 +100,20 @@ int main(int argc, char **argv)
             int op2 = pop(&svm);
             int op1 = pop(&svm);
             push_inst(&svm, op1 <= op2 ? 1 : 0);
+        }
+        else if (svm.program[i].type == INST_GT)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. GREATER_THEN operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            push_inst(&svm, op1 > op2 ? 1 : 0);
+        }
+        else if (svm.program[i].type == INST_GTEQ)
+        {
+            assert_ip_count(svm.ip >= 2, "Stack underflow. GREATER_THEN_OR_EQUAL operation requires two values on the stack.");
+            int op2 = pop(&svm);
+            int op1 = pop(&svm);
+            push_inst(&svm, op1 >= op2 ? 1 : 0);
         }
         else if (svm.program[i].type == INST_JMP)
         {

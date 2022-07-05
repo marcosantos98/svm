@@ -42,3 +42,7 @@ void dump_stack(struct SVM svm, int ip)
         printf("\tIP: %ld = %i\n", i, svm.stack[i]);
     }
 }
+
+void add_instruction(struct SVM *svm, struct Instruction inst) {
+    svm->program[svm->inst_ptr++] = inst;
+}
