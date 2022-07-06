@@ -1,0 +1,4 @@
+push 10
+memset 0
+memget 0
+print
