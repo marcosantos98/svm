@@ -1,13 +1,14 @@
-push 0
 push 1
+memset 0
+memget 0
 push 10
-lt
-jneq 10
-push 1
-plus
-dup
+lteq
+jneq 13
+memget 0
 dup
 print
+push 1
+plus
+memset 0
 jmp 2
-drop
 halt
