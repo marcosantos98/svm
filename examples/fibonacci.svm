@@ -1,0 +1,28 @@
+push 0
+dup
+print
+memset 0
+push 1
+dup
+print
+memset 1
+push 1
+memset 2
+memget 2
+push 20
+lt
+jneq 27
+memget 0
+memget 1
+dup
+memset 0
+plus
+dup
+print
+memset 1
+memget 2
+push 1
+plus
+memset 2
+jmp 10
+halt
