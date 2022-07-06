@@ -26,6 +26,9 @@
 #define DUMP (struct Instruction){.type = INST_DUMP, .op = 0}
 #define DROPALL (struct Instruction){.type = INST_DROPALL, .op = 0}
 
+#define MEMSET(operand) (struct Instruction){.type = INST_MEMSET, .op = operand}
+#define MEMGET(operand) (struct Instruction){.type = INST_MEMGET, .op = operand}
+
 enum InstType {
     INST_NOP = 0,
     INST_HALT,
@@ -48,6 +51,8 @@ enum InstType {
     INST_DROPALL,
     INST_PRINT,
     INST_DUMP,
+    INST_MEMSET,
+    INST_MEMGET,
 };
 
 struct Instruction {

@@ -14,13 +14,16 @@ struct SVM
     int stack[MAX_STACK_SIZE];
     size_t inst_ptr;
     struct Instruction program[MAX_INSTRUCTIONS_SIZE];
+    int mems[6];
 };
 
 void assert_empty_stack(struct SVM);
-void assert_ip_count(bool, const char*);
+void assert_ip_count(bool, const char *);
 void push_inst(struct SVM *, int);
 int pop(struct SVM *);
 void dump_stack(struct SVM, int);
 void add_instruction(struct SVM *, struct Instruction);
+void set_mem(struct SVM *, int, int);
+int get_mem(struct SVM, int);
 
 #endif

@@ -155,9 +155,19 @@ void parse_source(struct SVM *svm, const char *filename)
         {
             add_instruction(svm, DUMP);
         }
-         else if (strcmp(ptr, "nequal") == 0)
+        else if (strcmp(ptr, "nequal") == 0)
         {
             add_instruction(svm, NEQUAL);
+        }
+        else if (strcmp(ptr, "memset") == 0)
+        {
+            ptr = strtok(NULL, " \n");
+            add_instruction(svm, MEMSET(atoi(ptr)));
+        }
+        else if (strcmp(ptr, "memget") == 0)
+        {
+            ptr = strtok(NULL, " \n");
+            add_instruction(svm, MEMGET(atoi(ptr)));
         }
         else
         {

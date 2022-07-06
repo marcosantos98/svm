@@ -46,3 +46,11 @@ void dump_stack(struct SVM svm, int ip)
 void add_instruction(struct SVM *svm, struct Instruction inst) {
     svm->program[svm->inst_ptr++] = inst;
 }
+
+void set_mem(struct SVM *svm, int index, int value) {
+    svm->mems[index] = value;
+}
+
+int get_mem(struct SVM svm, int index) {
+    return svm.mems[index];
+}

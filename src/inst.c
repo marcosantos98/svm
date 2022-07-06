@@ -20,6 +20,8 @@ const char* inst_to_str(int inst){
         case INST_DROPALL: return "DROPALL";
         case INST_PRINT: return "PRINT";
         case INST_DUMP: return "DUMP";
+        case INST_MEMSET: return "MEMSET";
+        case INST_MEMGET: return "MEMGET";
         default:
             return "Unreachable";
     }
