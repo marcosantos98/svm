@@ -1,0 +1,3 @@
+# Push
+push 10 # Push ten to the stack
+print #Print value to stdout
