@@ -169,6 +169,9 @@ void parse_source(struct SVM *svm, const char *filename)
             ptr = strtok(NULL, " \n");
             add_instruction(svm, MEMGET(atoi(ptr)));
         }
+        else if(ptr[0] == '#') {
+            ptr = strtok(NULL, "\n");
+        }
         else
         {
             fprintf(stderr, "ERROR: Unexpected instruction: %s\n", ptr);
