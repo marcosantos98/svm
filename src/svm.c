@@ -22,6 +22,15 @@ void assert_empty_stack(struct SVM svm)
     }
 }
 
+void assert_valid_mem_spot(int spot)
+{
+    if (spot > MAX_MEM_SPOTS || spot < 0)
+    {
+        printf("Error: Given memory spot isn't valid. Spot need to be > 0 && < %d [assert_valid_mem_spot]\n", MAX_MEM_SPOTS);
+        exit(1);
+    }
+}
+
 void push_inst(struct SVM *svm, int operand)
 {
     svm->stack[svm->ip++] = operand;
@@ -43,14 +52,17 @@ void dump_stack(struct SVM svm, int ip)
     }
 }
 
-void add_instruction(struct SVM *svm, struct Instruction inst) {
+void add_instruction(struct SVM *svm, struct Instruction inst)
+{
     svm->program[svm->inst_ptr++] = inst;
 }
 
-void set_mem(struct SVM *svm, int index, int value) {
+void set_mem(struct SVM *svm, int index, int value)
+{
     svm->mems[index] = value;
 }
 
-int get_mem(struct SVM svm, int index) {
+int get_mem(struct SVM svm, int index)
+{
     return svm.mems[index];
 }

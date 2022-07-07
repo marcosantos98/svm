@@ -145,12 +145,14 @@ int main(int argc, char **argv)
         else if (svm.program[i].type == INST_MEMGET)
         {
             int index = svm.program[i].op;
+            assert_valid_mem_spot(index);
             push_inst(&svm, get_mem(svm, index));
         }
         else if (svm.program[i].type == INST_MEMSET)
         {
             assert_ip_count(svm.ip >= 1, "Stack underflow. MEMSET operation requires one value on the stack.");
             int index = svm.program[i].op;
+            assert_valid_mem_spot(index);
             int value = pop(&svm);
             set_mem(&svm, index, value);
         }
