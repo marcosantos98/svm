@@ -1,3 +1,12 @@
+# Fibonacci numbers until 20
+# 
+# This uses memget and memset to save the last to values.
+
+# Memory spots:
+# 0 - Fn-1
+# 1 - Fn-2
+# 2 - loop index holder.
+
 push 0
 dup
 print
@@ -8,10 +17,10 @@ print
 memset 1
 push 1
 memset 2
-memget 2
+memget 2 # Loop check
 push 20
 lt
-jneq 27
+jneq 27 # Jump to halt if lt result is 1
 memget 0
 memget 1
 dup
@@ -24,5 +33,5 @@ memget 2
 push 1
 plus
 memset 2
-jmp 10
+jmp 10 # Jump to loop check
 halt

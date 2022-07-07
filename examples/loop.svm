@@ -3,12 +3,12 @@ memset 0
 memget 0
 push 10
 lteq
-jneq 13
+jneq 13 # Jump to halt
 memget 0
 dup
 print
 push 1
 plus
 memset 0
-jmp 2
+jmp 2 # Jump to memset 0
 halt
