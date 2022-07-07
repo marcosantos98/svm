@@ -1,0 +1,1 @@
+Error: Given memory spot isn't valid. Spot need to be > 0 && < 6 [assert_valid_mem_spot]
