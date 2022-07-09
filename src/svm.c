@@ -66,3 +66,58 @@ int get_mem(struct SVM svm, int index)
 {
     return svm.mems[index];
 }
+
+int save_string_literal(struct SVM *svm, const char *str)
+{
+    int start = svm->mem_ptr;
+    size_t len = strlen(str);
+
+    // if(str[len - 1] != '"') {
+    //     printf("ERROR: Unclosed string! %c\n", str[len - 1]);
+    //     exit(1);
+    // }
+
+    for (size_t i = 0; i < len; i++)
+    {
+        svm->memory_space[svm->mem_ptr++] = str[i];
+    }
+    return start;
+}
+
+void read_string_literal(struct SVM *svm, int ptr, char **buf)
+{
+    size_t len = 0;
+    while (svm->memory_space[ptr + len] != '\0' && len < MEM_SPACE)
+    {
+        len++;
+    }
+
+    *buf = malloc(sizeof(char) * len + 1);
+
+    for (size_t i = 0; i < len; i++)
+    {
+        memset(*buf + i, svm->memory_space[ptr + i], sizeof(char));
+    }
+
+    memset(*buf + len, '\0', sizeof(char));
+}
+
+void dump_memory(const struct SVM *svm)
+{
+    for (int i = 0; i < MEM_SPACE; i++)
+    {
+        if (i == 0)
+        {
+            printf("%02x ", svm->memory_space[i]);
+        }
+        else if (i % 16 == 0)
+        {
+            printf("%02x\n", svm->memory_space[i]);
+        }
+        else
+        {
+            printf("%02x ", svm->memory_space[i]);
+        }
+    }
+    printf("\n");
+}

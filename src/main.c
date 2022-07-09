@@ -134,6 +134,14 @@ int main(int argc, char **argv)
             int op = pop(&svm);
             printf("stdout:%d\n", op);
         }
+        else if (svm.program[i].type == INST_PRINTS)
+        {
+            int op = pop(&svm);
+            char*buf = NULL;
+            read_string_literal(&svm, op, &buf);
+            printf("stdout: %s\n", buf);
+            free(buf);
+        }
         else if (svm.program[i].type == INST_DUMP)
         {
             dump_stack(svm, i);

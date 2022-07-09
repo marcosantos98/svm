@@ -19,6 +19,7 @@ const char* inst_to_str(int inst){
         case INST_DROP: return "DROP";
         case INST_DROPALL: return "DROPALL";
         case INST_PRINT: return "PRINT";
+        case INST_PRINTS: return "PRINTS";
         case INST_DUMP: return "DUMP";
         case INST_MEMSET: return "MEMSET";
         case INST_MEMGET: return "MEMGET";

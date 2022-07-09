@@ -77,7 +77,15 @@ void parse_source(struct SVM *svm, const char *filename)
         {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
-            add_instruction(svm, PUSH(atoi(ptr)));
+            if (ptr[0] == '"')
+            {
+                int mem_ptr = save_string_literal(svm, ptr);
+                add_instruction(svm, PUSH(mem_ptr));
+            }
+            else
+            {
+                add_instruction(svm, PUSH(atoi(ptr)));
+            }
         }
         else if (strcmp(ptr, "jmp") == 0)
         {
@@ -114,6 +122,10 @@ void parse_source(struct SVM *svm, const char *filename)
         else if (strcmp(ptr, "print") == 0)
         {
             add_instruction(svm, PRINT);
+        }
+        else if (strcmp(ptr, "prints") == 0)
+        {
+            add_instruction(svm, PRINTS);
         }
         else if (strcmp(ptr, "drop") == 0)
         {
@@ -169,7 +181,8 @@ void parse_source(struct SVM *svm, const char *filename)
             ptr = strtok(NULL, " \n");
             add_instruction(svm, MEMGET(atoi(ptr)));
         }
-        else if(ptr[0] == '#') {
+        else if (ptr[0] == '#')
+        {
             ptr = strtok(NULL, "\n");
         }
         else

@@ -23,6 +23,7 @@
 #define DROP (struct Instruction){.type = INST_DROP, .op = 0}
 
 #define PRINT (struct Instruction){.type = INST_PRINT, .op = 0}
+#define PRINTS (struct Instruction){.type = INST_PRINTS, .op = 0}
 #define DUMP (struct Instruction){.type = INST_DUMP, .op = 0}
 #define DROPALL (struct Instruction){.type = INST_DROPALL, .op = 0}
 
@@ -50,6 +51,7 @@ enum InstType {
     INST_DROP,
     INST_DROPALL,
     INST_PRINT,
+    INST_PRINTS,
     INST_DUMP,
     INST_MEMSET,
     INST_MEMGET,
