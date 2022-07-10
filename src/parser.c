@@ -76,7 +76,7 @@ void parse_source(struct SVM *svm, const char *filename)
         if (strcmp(ptr, "push") == 0)
         {
             // todo check if next operand is a valid operand.
-            ptr = strtok(NULL, " \n");
+            ptr = strtok(NULL, "\n");
             if (ptr[0] == '"')
             {
                 int mem_ptr = save_string_literal(svm, ptr);

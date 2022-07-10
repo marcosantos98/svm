@@ -72,15 +72,16 @@ int save_string_literal(struct SVM *svm, const char *str)
     int start = svm->mem_ptr;
     size_t len = strlen(str);
 
-    // if(str[len - 1] != '"') {
-    //     printf("ERROR: Unclosed string! %c\n", str[len - 1]);
-    //     exit(1);
-    // }
+    if(str[len - 1] != '"') {
+        printf("ERROR: Unclosed string! %c\n", str[len - 1]);
+        exit(1);
+    }
 
-    for (size_t i = 0; i < len; i++)
+    for (size_t i = 1; i < len - 1; i++)
     {
         svm->memory_space[svm->mem_ptr++] = str[i];
     }
+    svm->mem_ptr++; //Advance the null terminator.
     return start;
 }
 
@@ -104,20 +105,14 @@ void read_string_literal(struct SVM *svm, int ptr, char **buf)
 
 void dump_memory(const struct SVM *svm)
 {
-    for (int i = 0; i < MEM_SPACE; i++)
+    for (int i = 0; i < MEM_SPACE;)
     {
-        if (i == 0)
+        for (int j = 0; j < 16; j++)
         {
             printf("%02x ", svm->memory_space[i]);
+            i++;
         }
-        else if (i % 16 == 0)
-        {
-            printf("%02x\n", svm->memory_space[i]);
-        }
-        else
-        {
-            printf("%02x ", svm->memory_space[i]);
-        }
+        printf("\n");
     }
     printf("\n");
 }

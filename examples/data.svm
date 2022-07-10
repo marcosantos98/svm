@@ -1,2 +1,4 @@
 push "Hello World!"
 prints
+push "Example string2"
+prints

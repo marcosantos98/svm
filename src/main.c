@@ -145,6 +145,7 @@ int main(int argc, char **argv)
         else if (svm.program[i].type == INST_DUMP)
         {
             dump_stack(svm, i);
+            dump_memory(&svm);
         }
         else if (svm.program[i].type == INST_DROPALL)
         {
