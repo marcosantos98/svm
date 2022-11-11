@@ -10,8 +10,6 @@
 #define MAX_MEM_SPOTS 6
 #define MEM_SPACE 496
 
-typedef char byte;
-
 struct SVM
 {
     size_t ip;
@@ -19,7 +17,7 @@ struct SVM
     size_t inst_ptr;
     struct Instruction program[MAX_INSTRUCTIONS_SIZE];
     int mems[MAX_MEM_SPOTS];
-    byte memory_space[MEM_SPACE];
+    char memory_space[MEM_SPACE];
     int mem_ptr;   
 };
 
