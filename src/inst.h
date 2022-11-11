@@ -1,34 +1,34 @@
 #ifndef INST_H
 #define INST_H
 
-#define EQUAL (struct Instruction){.type = INST_EQ, .op = 0}
-#define NEQUAL (struct Instruction){.type = INST_NEQ, .op = 0}
+#define EQUAL (Instruction){.type = INST_EQ, .op = 0}
+#define NEQUAL (Instruction){.type = INST_NEQ, .op = 0}
 
-#define LT (struct Instruction){ .type = INST_LT, .op = 0 }
-#define LTEQ (struct Instruction){ .type = INST_LTEQ, .op = 0 }
-#define GT (struct Instruction){ .type = INST_GT, .op = 0 }
-#define GTEQ (struct Instruction){ .type = INST_GTEQ, .op = 0 }
+#define LT (Instruction){ .type = INST_LT, .op = 0 }
+#define LTEQ (Instruction){ .type = INST_LTEQ, .op = 0 }
+#define GT (Instruction){ .type = INST_GT, .op = 0 }
+#define GTEQ (Instruction){ .type = INST_GTEQ, .op = 0 }
 
-#define PLUS (struct Instruction){.type = INST_PLUS, .op = 0}
-#define MINUS (struct Instruction){.type = INST_MINUS, .op = 0}
-#define MULT (struct Instruction){.type = INST_MULT, .op = 0}
-#define DIV (struct Instruction){.type = INST_DIV, .op = 0}
-#define MOD (struct Instruction){.type = INST_MOD, .op = 0}
+#define PLUS (Instruction){.type = INST_PLUS, .op = 0}
+#define MINUS (Instruction){.type = INST_MINUS, .op = 0}
+#define MULT (Instruction){.type = INST_MULT, .op = 0}
+#define DIV (Instruction){.type = INST_DIV, .op = 0}
+#define MOD (Instruction){.type = INST_MOD, .op = 0}
 
-#define PUSH(operand) (struct Instruction){.type = INST_PUSH, .op = operand}
-#define HALT (struct Instruction){.type = INST_HALT, .op = 0}
-#define JMP(addr) (struct Instruction){.type = INST_JMP, .op = addr}
-#define JNEQ(addr) (struct Instruction){.type = INST_JNEQ, .op = addr }
-#define DUP (struct Instruction){.type = INST_DUP, .op = 0}
-#define DROP (struct Instruction){.type = INST_DROP, .op = 0}
+#define PUSH(operand) (Instruction){.type = INST_PUSH, .op = operand}
+#define HALT (Instruction){.type = INST_HALT, .op = 0}
+#define JMP(addr) (Instruction){.type = INST_JMP, .op = addr}
+#define JNEQ(addr) (Instruction){.type = INST_JNEQ, .op = addr }
+#define DUP (Instruction){.type = INST_DUP, .op = 0}
+#define DROP (Instruction){.type = INST_DROP, .op = 0}
 
-#define PRINT (struct Instruction){.type = INST_PRINT, .op = 0}
-#define PRINTS (struct Instruction){.type = INST_PRINTS, .op = 0}
-#define DUMP (struct Instruction){.type = INST_DUMP, .op = 0}
-#define DROPALL (struct Instruction){.type = INST_DROPALL, .op = 0}
+#define PRINT (Instruction){.type = INST_PRINT, .op = 0}
+#define PRINTS (Instruction){.type = INST_PRINTS, .op = 0}
+#define DUMP (Instruction){.type = INST_DUMP, .op = 0}
+#define DROPALL (Instruction){.type = INST_DROPALL, .op = 0}
 
-#define MEMSET(operand) (struct Instruction){.type = INST_MEMSET, .op = operand}
-#define MEMGET(operand) (struct Instruction){.type = INST_MEMGET, .op = operand}
+#define MEMSET(operand) (Instruction){.type = INST_MEMSET, .op = operand}
+#define MEMGET(operand) (Instruction){.type = INST_MEMGET, .op = operand}
 
 enum InstType {
     INST_NOP = 0,
@@ -57,10 +57,10 @@ enum InstType {
     INST_MEMGET,
 };
 
-struct Instruction {
+typedef struct Instruction {
     enum InstType type;
     int op;
-};
+} Instruction;
 
 const char* inst_to_str(int);
 

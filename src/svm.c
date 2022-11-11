@@ -52,7 +52,7 @@ void dump_stack(struct SVM svm, int ip)
     }
 }
 
-void add_instruction(struct SVM *svm, struct Instruction inst)
+void add_instruction(struct SVM *svm, Instruction inst)
 {
     svm->program[svm->inst_ptr++] = inst;
 }

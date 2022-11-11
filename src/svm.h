@@ -15,7 +15,7 @@ struct SVM
     size_t ip;
     int stack[MAX_STACK_SIZE];
     size_t inst_ptr;
-    struct Instruction program[MAX_INSTRUCTIONS_SIZE];
+    Instruction program[MAX_INSTRUCTIONS_SIZE];
     int mems[MAX_MEM_SPOTS];
     char memory_space[MEM_SPACE];
     int mem_ptr;   
@@ -27,7 +27,7 @@ void assert_valid_mem_spot(int);
 void push_inst(struct SVM *, int);
 int pop(struct SVM *);
 void dump_stack(struct SVM, int);
-void add_instruction(struct SVM *, struct Instruction);
+void add_instruction(struct SVM *, Instruction);
 void set_mem(struct SVM *, int, int);
 int get_mem(struct SVM, int);
 int save_string_literal(struct SVM *, const char *);
