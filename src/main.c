@@ -18,7 +18,7 @@ int main(int argc, char **argv)
 
     char *input_file = *argv++;
 
-    struct SVM svm = {0};
+    SVM svm = {0};
 
     parse_source(&svm, input_file);
 

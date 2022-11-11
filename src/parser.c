@@ -62,7 +62,7 @@ void load_file(const char *filename, char **buf)
     fclose(program);
 }
 
-void parse_source(struct SVM *svm, const char *filename)
+void parse_source(SVM *svm, const char *filename)
 {
 
     char *buf = NULL;
