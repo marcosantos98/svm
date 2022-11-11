@@ -11,7 +11,8 @@ The current program prints the number from 0 to 10 to the console.
 ```console
 git clone https://github.com/mscode98/svm.git
 cd svm
-cmake .
+mkdir build && cd build
+cmake ..
 make
 ./svm <input.svm>
 ```
