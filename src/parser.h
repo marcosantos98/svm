@@ -3,9 +3,9 @@
 
 #include "svm.h"
 
-void load_file(const char*, char**);
+void load_file(const char *, char **);
 void parse_string(const char *, char **);
-void parse_source(SVM*, const char*);
-void lower_str(char*);
+void parse_source(SVM *, const char *);
+void lower_str(char *);
 
 #endif

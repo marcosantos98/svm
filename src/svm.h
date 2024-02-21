@@ -10,15 +10,14 @@
 #define MAX_MEM_SPOTS 6
 #define MEM_SPACE 496
 
-typedef struct SVM
-{
+typedef struct SVM {
     size_t ip;
     int stack[MAX_STACK_SIZE];
     size_t inst_ptr;
     Instruction program[MAX_INSTRUCTIONS_SIZE];
     int mems[MAX_MEM_SPOTS];
     char memory_space[MEM_SPACE];
-    int mem_ptr;   
+    int mem_ptr;
 } SVM;
 
 void assert_empty_stack(SVM);
@@ -32,6 +31,6 @@ void set_mem(SVM *, int, int);
 int get_mem(SVM, int);
 int save_string_literal(SVM *, const char *);
 void read_string_literal(SVM *, int, char **);
-void dump_memory(const SVM*);
+void dump_memory(const SVM *);
 
 #endif

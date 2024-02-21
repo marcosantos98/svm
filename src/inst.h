@@ -1,6 +1,7 @@
 #ifndef INST_H
 #define INST_H
 
+// clang-format off
 #define EQUAL (Instruction){.type = INST_EQ, .op = 0}
 #define NEQUAL (Instruction){.type = INST_NEQ, .op = 0}
 
@@ -29,6 +30,7 @@
 
 #define MEMSET(operand) (Instruction){.type = INST_MEMSET, .op = operand}
 #define MEMGET(operand) (Instruction){.type = INST_MEMGET, .op = operand}
+// clang-format on
 
 enum InstType {
     INST_NOP = 0,
@@ -62,6 +64,6 @@ typedef struct Instruction {
     int op;
 } Instruction;
 
-const char* inst_to_str(int);
+const char *inst_to_str(int);
 
 #endif

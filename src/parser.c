@@ -1,38 +1,33 @@
-#include <stdio.h>
-#include <errno.h>
-#include <string.h>
 #include <ctype.h>
+#include <errno.h>
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-#include "parser.h"
 #include "inst.h"
+#include "parser.h"
 
-void load_file(const char *filename, char **buf)
-{
+void load_file(const char *filename, char **buf) {
     FILE *program = fopen(filename, "r");
-    if (program == NULL)
-    {
+    if (program == NULL) {
         fprintf(stderr, "ERROR: Couldn't open the file %s. Reason: %s\n", filename, strerror(errno));
         exit(1);
     }
 
-    if (fseek(program, 0L, SEEK_END) == -1)
-    {
+    if (fseek(program, 0L, SEEK_END) == -1) {
         fprintf(stderr, "ERROR: %s\n", strerror(errno));
         fclose(program);
         exit(1);
     }
 
     long len = ftell(program);
-    if (len == -1)
-    {
+    if (len == -1) {
         fprintf(stderr, "ERROR: %s\n", strerror(errno));
         fclose(program);
         exit(1);
     }
 
-    if (fseek(program, 0L, SEEK_SET) == -1)
-    {
+    if (fseek(program, 0L, SEEK_SET) == -1) {
         fprintf(stderr, "ERROR: %s\n", strerror(errno));
         fclose(program);
         exit(1);
@@ -40,16 +35,12 @@ void load_file(const char *filename, char **buf)
 
     *buf = malloc(sizeof(char) * (len + 1));
 
-    if (fread(*buf, sizeof(char), len, program) == 0)
-    {
-        if (ferror(program))
-        {
+    if (fread(*buf, sizeof(char), len, program) == 0) {
+        if (ferror(program)) {
             fprintf(stderr, "ERROR: %s\n", strerror(errno));
             fclose(program);
             exit(1);
-        }
-        else if (feof(program))
-        {
+        } else if (feof(program)) {
             fprintf(stderr, "ERROR: Reached end of file!\n");
             fclose(program);
             exit(1);
@@ -62,131 +53,77 @@ void load_file(const char *filename, char **buf)
     fclose(program);
 }
 
-void parse_source(SVM *svm, const char *filename)
-{
+void parse_source(SVM *svm, const char *filename) {
 
     char *buf = NULL;
     load_file(filename, &buf);
 
     char *ptr = strtok(buf, " \n");
 
-    while (ptr != NULL)
-    {
+    while (ptr != NULL) {
         lower_str(ptr);
-        if (strcmp(ptr, "push") == 0)
-        {
+        if (strcmp(ptr, "push") == 0) {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, "\n");
-            if (ptr[0] == '"')
-            {
+            if (ptr[0] == '"') {
                 int mem_ptr = save_string_literal(svm, ptr);
                 add_instruction(svm, PUSH(mem_ptr));
-            }
-            else
-            {
+            } else {
                 add_instruction(svm, PUSH(atoi(ptr)));
             }
-        }
-        else if (strcmp(ptr, "jmp") == 0)
-        {
+        } else if (strcmp(ptr, "jmp") == 0) {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
             add_instruction(svm, JMP(atoi(ptr)));
-        }
-        else if (strcmp(ptr, "jneq") == 0)
-        {
+        } else if (strcmp(ptr, "jneq") == 0) {
             // todo check if next operand is a valid operand.
             ptr = strtok(NULL, " \n");
             add_instruction(svm, JNEQ(atoi(ptr)));
-        }
-        else if (strcmp(ptr, "plus") == 0)
-        {
+        } else if (strcmp(ptr, "plus") == 0) {
             add_instruction(svm, PLUS);
-        }
-        else if (strcmp(ptr, "minus") == 0)
-        {
+        } else if (strcmp(ptr, "minus") == 0) {
             add_instruction(svm, MINUS);
-        }
-        else if (strcmp(ptr, "mult") == 0)
-        {
+        } else if (strcmp(ptr, "mult") == 0) {
             add_instruction(svm, MULT);
-        }
-        else if (strcmp(ptr, "div") == 0)
-        {
+        } else if (strcmp(ptr, "div") == 0) {
             add_instruction(svm, DIV);
-        }
-        else if (strcmp(ptr, "mod") == 0)
-        {
+        } else if (strcmp(ptr, "mod") == 0) {
             add_instruction(svm, MOD);
-        }
-        else if (strcmp(ptr, "print") == 0)
-        {
+        } else if (strcmp(ptr, "print") == 0) {
             add_instruction(svm, PRINT);
-        }
-        else if (strcmp(ptr, "prints") == 0)
-        {
+        } else if (strcmp(ptr, "prints") == 0) {
             add_instruction(svm, PRINTS);
-        }
-        else if (strcmp(ptr, "drop") == 0)
-        {
+        } else if (strcmp(ptr, "drop") == 0) {
             add_instruction(svm, DROP);
-        }
-        else if (strcmp(ptr, "equal") == 0)
-        {
+        } else if (strcmp(ptr, "equal") == 0) {
             add_instruction(svm, EQUAL);
-        }
-        else if (strcmp(ptr, "dup") == 0)
-        {
+        } else if (strcmp(ptr, "dup") == 0) {
             add_instruction(svm, DUP);
-        }
-        else if (strcmp(ptr, "lt") == 0)
-        {
+        } else if (strcmp(ptr, "lt") == 0) {
             add_instruction(svm, LT);
-        }
-        else if (strcmp(ptr, "lteq") == 0)
-        {
+        } else if (strcmp(ptr, "lteq") == 0) {
             add_instruction(svm, LTEQ);
-        }
-        else if (strcmp(ptr, "gt") == 0)
-        {
+        } else if (strcmp(ptr, "gt") == 0) {
             add_instruction(svm, GT);
-        }
-        else if (strcmp(ptr, "gteq") == 0)
-        {
+        } else if (strcmp(ptr, "gteq") == 0) {
             add_instruction(svm, GTEQ);
-        }
-        else if (strcmp(ptr, "dropall") == 0)
-        {
+        } else if (strcmp(ptr, "dropall") == 0) {
             add_instruction(svm, DROPALL);
-        }
-        else if (strcmp(ptr, "halt") == 0)
-        {
+        } else if (strcmp(ptr, "halt") == 0) {
             add_instruction(svm, HALT);
-        }
-        else if (strcmp(ptr, "dump") == 0)
-        {
+        } else if (strcmp(ptr, "dump") == 0) {
             add_instruction(svm, DUMP);
-        }
-        else if (strcmp(ptr, "nequal") == 0)
-        {
+        } else if (strcmp(ptr, "nequal") == 0) {
             add_instruction(svm, NEQUAL);
-        }
-        else if (strcmp(ptr, "memset") == 0)
-        {
+        } else if (strcmp(ptr, "memset") == 0) {
             ptr = strtok(NULL, " \n");
             add_instruction(svm, MEMSET(atoi(ptr)));
-        }
-        else if (strcmp(ptr, "memget") == 0)
-        {
+        } else if (strcmp(ptr, "memget") == 0) {
             ptr = strtok(NULL, " \n");
             add_instruction(svm, MEMGET(atoi(ptr)));
-        }
-        else if (ptr[0] == '#')
-        {
+        } else if (ptr[0] == '#') {
             ptr = strtok(NULL, "\n");
-        }
-        else
-        {
+        } else {
             fprintf(stderr, "ERROR: Unexpected instruction: %s\n", ptr);
         }
         ptr = strtok(NULL, " \n");
@@ -195,10 +132,8 @@ void parse_source(SVM *svm, const char *filename)
     free(buf);
 }
 
-void lower_str(char *str)
-{
-    for (size_t i = 0; i < strlen(str); i++)
-    {
+void lower_str(char *str) {
+    for (size_t i = 0; i < strlen(str); i++) {
         str[i] = tolower(str[i]);
     }
 }

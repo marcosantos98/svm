@@ -1,5 +1,6 @@
 #include "inst.h"
 
+// clang-format off
 const char* inst_to_str(int inst){
     switch(inst){
         case INST_NOP: return "NOP";
@@ -27,3 +28,4 @@ const char* inst_to_str(int inst){
             return "Unreachable";
     }
 }
+// clang-format on
