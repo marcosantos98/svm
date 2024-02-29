@@ -6,6 +6,16 @@
 #include "parser.h"
 #include "svm.h"
 
+#include <bench.h>
+
+#define DEBUG 0
+
+#define MEASURE(b_ptr, msg)            \
+    do {                               \
+        if (DEBUG)                     \
+            BENCH_MEASURE(b_ptr, msg); \
+    } while (0)
+
 int main(int argc, char **argv) {
     (void)argc;
     (void)*argv++;
@@ -18,8 +28,15 @@ int main(int argc, char **argv) {
 
     SVM svm = {0};
 
-    parse_source(&svm, input_file);
+    bench b = {0};
 
+    BENCH_START(&b);
+    new_parse_source(&svm, input_file);
+    MEASURE(&b, "Parse source file");
+    return 0;
+
+    //    parse_source(&svm, input_file);
+    //
     for (size_t i = 0; i < svm.inst_ptr; i++) {
         if (svm.program[i].type == INST_PUSH) {
             push_inst(&svm, svm.program[i].op);
@@ -120,6 +137,8 @@ int main(int argc, char **argv) {
             svm.ip = 0;
         }
     }
+
+    MEASURE(&b, "Interpert");
 
     assert_empty_stack(svm);
 

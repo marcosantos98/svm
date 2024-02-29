@@ -7,56 +7,92 @@
 #include "inst.h"
 #include "parser.h"
 
-void load_file(const char *filename, char **buf) {
-    FILE *program = fopen(filename, "r");
-    if (program == NULL) {
-        fprintf(stderr, "ERROR: Couldn't open the file %s. Reason: %s\n", filename, strerror(errno));
-        exit(1);
-    }
+#include <io.h>
+#include <strb.h>
 
-    if (fseek(program, 0L, SEEK_END) == -1) {
-        fprintf(stderr, "ERROR: %s\n", strerror(errno));
-        fclose(program);
-        exit(1);
-    }
+size_t parse_ident(const char *buf, size_t cursor, strb *str) {
+    size_t start = cursor;
+    size_t end = cursor;
+    while (isalpha(buf[end]))
+        end++;
 
-    long len = ftell(program);
-    if (len == -1) {
-        fprintf(stderr, "ERROR: %s\n", strerror(errno));
-        fclose(program);
-        exit(1);
-    }
+    char *res = malloc(sizeof(char) * end - start);
+    memcpy(res, buf + start, end - start);
+    strb_append(str, res);
+    free(res);
 
-    if (fseek(program, 0L, SEEK_SET) == -1) {
-        fprintf(stderr, "ERROR: %s\n", strerror(errno));
-        fclose(program);
-        exit(1);
-    }
+    return end;
+}
 
-    *buf = malloc(sizeof(char) * (len + 1));
+size_t parse_number(const char *buf, size_t cursor, strb *str) {
+    size_t start = cursor;
+    size_t end = cursor;
+    while (isdigit(buf[end]))
+        end++;
 
-    if (fread(*buf, sizeof(char), len, program) == 0) {
-        if (ferror(program)) {
-            fprintf(stderr, "ERROR: %s\n", strerror(errno));
-            fclose(program);
-            exit(1);
-        } else if (feof(program)) {
-            fprintf(stderr, "ERROR: Reached end of file!\n");
-            fclose(program);
-            exit(1);
+    char *res = malloc(sizeof(char) * end - start);
+    memcpy(res, buf + start, end - start);
+    strb_append(str, res);
+    free(res);
+
+    return end;
+}
+
+void new_parse_source(SVM *svm, const char *filename) {
+
+    size_t len = 0;
+    char *buf = read_file(filename, &len);
+
+    strb str = strb_init(1024);
+
+    Instruction current = {0};
+
+    size_t cursor = 0;
+    while (cursor < len) {
+        switch (buf[cursor]) {
+        case ';': {
+            add_instruction(svm, current);
+            cursor++;
+        } break;
+        case '\n':
+        case '\r':
+        case '\t':
+        case ' ':
+            cursor++;
+            break;
+        default: {
+            if (isalpha(buf[cursor])) {
+                cursor = parse_ident(buf, cursor, &str);
+                if (strcmp(str.str, "push") == 0)
+                    current.type = INST_PUSH;
+                else {
+                    printf("Unexpected ident: %s\n", str.str);
+                    free(buf);
+                    strb_free(str);
+                    exit(0);
+                }
+                str.cnt = 0;
+            } else if (isdigit(buf[cursor])) {
+                cursor = parse_number(buf, cursor, &str);
+                current.op = atoi(str.str);
+                str.cnt = 0;
+            } else {
+                printf("Unexpected char: %c\n", buf[cursor]);
+                free(buf);
+                strb_free(str);
+                exit(0);
+            }
+        } break;
         }
     }
-
-    buf[len + 1] = '\0';
-
-    // This can also fail, but do I care?
-    fclose(program);
+    free(buf);
+    strb_free(str);
 }
 
 void parse_source(SVM *svm, const char *filename) {
 
-    char *buf = NULL;
-    load_file(filename, &buf);
+    size_t len = 0;
+    char *buf = read_file(filename, &len);
 
     char *ptr = strtok(buf, " \n");
 

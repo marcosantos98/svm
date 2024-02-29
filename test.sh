@@ -1,6 +1,6 @@
 #!/bin/sh
 
-FILE=./build/svm
+FILE=./svm
 if test ! -f "$FILE"; 
 then
     echo "Compile the project before running tests."
@@ -18,14 +18,14 @@ do
     if [ "$1" = "rec" ]
     then
         echo "Recording $i"
-        ../build/svm $i > $i.out
+        ../svm $i > $i.out
     elif [ "$1" = "-or" ]
     then
         FILE=$i.out
         if test -f "$FILE"; 
         then
             echo "Running $i"
-            run="$(../build/svm $i)"
+            run="$(../svm $i)"
             out="$(cat $i.out)"
             if [ "$run" = "$out" ]
             then
@@ -44,7 +44,7 @@ do
         if test -f "$FILE"; 
         then
             echo "Running $i"
-            run="$(../build/svm $i)"
+            run="$(../svm $i)"
             out="$(cat $i.out)"
             if [ "$run" = "$out" ]
             then
