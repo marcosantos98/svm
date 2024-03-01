@@ -11,29 +11,21 @@
 #include <strb.h>
 
 size_t parse_ident(const char *buf, size_t cursor, strb *str) {
-    size_t start = cursor;
     size_t end = cursor;
-    while (isalpha(buf[end]))
+    while (isalpha(buf[end])) {
+        strb_append_single(str, buf[end]);
         end++;
-
-    char *res = malloc(sizeof(char) * end - start);
-    memcpy(res, buf + start, end - start);
-    strb_append(str, res);
-    free(res);
+    }
 
     return end;
 }
 
 size_t parse_number(const char *buf, size_t cursor, strb *str) {
-    size_t start = cursor;
     size_t end = cursor;
-    while (isdigit(buf[end]))
+    while (isdigit(buf[end])) {
+        strb_append_single(str, buf[end]);
         end++;
-
-    char *res = malloc(sizeof(char) * end - start);
-    memcpy(res, buf + start, end - start);
-    strb_append(str, res);
-    free(res);
+    }
 
     return end;
 }
@@ -52,6 +44,7 @@ void new_parse_source(SVM *svm, const char *filename) {
         switch (buf[cursor]) {
         case ';': {
             add_instruction(svm, current);
+            current.op = 0;
             cursor++;
         } break;
         case '\n':
@@ -63,10 +56,15 @@ void new_parse_source(SVM *svm, const char *filename) {
         default: {
             if (isalpha(buf[cursor])) {
                 cursor = parse_ident(buf, cursor, &str);
-                if (strcmp(str.str, "push") == 0)
+                lower_str(str.str);
+                if (strncmp(str.str, "push", 4) == 0)
                     current.type = INST_PUSH;
+                else if (strncmp(str.str, "plus", 4) == 0)
+                    current.type = INST_PLUS;
+                else if (strncmp(str.str, "print", 5) == 0)
+                    current.type = INST_PRINT;
                 else {
-                    printf("Unexpected ident: %s\n", str.str);
+                    printf("Unexpected ident: %s.\n", str.str);
                     free(buf);
                     strb_free(str);
                     exit(0);
@@ -85,6 +83,13 @@ void new_parse_source(SVM *svm, const char *filename) {
         } break;
         }
     }
+
+    for (size_t i = 0; i < svm->inst_ptr; i++) {
+        printf("[%zu] Inst:\n", i);
+        printf("   %s\n", inst_to_str(svm->program[i].type));
+        printf("   %d\n", svm->program[i].op);
+    }
+
     free(buf);
     strb_free(str);
 }

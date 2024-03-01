@@ -1,4 +1,4 @@
-PUSH 34
-push 35
-plus
-print
+PUSH 34;
+push 35;
+plus;
+print;

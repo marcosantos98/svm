@@ -8,7 +8,7 @@
 
 #include <bench.h>
 
-#define DEBUG 0
+#define DEBUG 1
 
 #define MEASURE(b_ptr, msg)            \
     do {                               \
@@ -33,11 +33,10 @@ int main(int argc, char **argv) {
     BENCH_START(&b);
     new_parse_source(&svm, input_file);
     MEASURE(&b, "Parse source file");
-    return 0;
 
     //    parse_source(&svm, input_file);
-    //
-    for (size_t i = 0; i < svm.inst_ptr; i++) {
+
+	for (size_t i = 0; i < svm.inst_ptr; i++) {
         if (svm.program[i].type == INST_PUSH) {
             push_inst(&svm, svm.program[i].op);
         } else if (svm.program[i].type == INST_DUP) {
